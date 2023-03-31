@@ -21,22 +21,24 @@ headers = [fits.open(f)['SCI'].header for f in files]
 aperwid = np.array([header['APERWID'] for header in headers])
 exptime = np.array([header['EXPTIME'] for header in headers])
 aperwid_2 = np.where(aperwid == 2)
-exp_80 = np.where([np.isclose(t, 80, atol = 1) for t in exptime])
-exp_40 = np.where([np.isclose(t, 40, atol = 1) for t in exptime])
+exp_80 = np.where([np.isclose(t, 80, atol = 1) for t in exptime]) #Where exposure time is 80s
+exp_40 = np.where([np.isclose(t, 40, atol = 1) for t in exptime]) #Where exposure time is 40s. This is the ideal for ogg FLOYDS
 exp80_and_aperwid2 = np.intersect1d(aperwid_2, exp_80)
 exp40_and_aperwid2 = np.intersect1d(aperwid_2, exp_40)
 use_headers = [headers[i] for i in exp40_and_aperwid2]
 use_files = [files[i] for i in exp40_and_aperwid2]
 times = np.array([datetime.strptime(header['DATE-OBS'], '%Y-%m-%dT%H:%M:%S.%f') for header in use_headers])
-rotangle = np.array([header['ROTANGLE'] for header in use_headers])
+rotangle = np.array([header['ROTANGLE'] for header in use_headers]) #Telescope rotation angle
 altitude = np.array([header['ALTITUDE'] for header in use_headers])
 azimuth = np.array([header['AZIMUTH'] for header in use_headers])
-xshift = np.array([header['ORDXSHFT'] for header in use_headers])
-yshift = np.array([header['ORDYSHFT'] for header in use_headers])
-rotation = np.array([header['ORDROT'] for header in use_headers])
-ccdtemp = np.array([header['CCDATEMP'] for header in use_headers])
-wmstemp = np.array([header['WMSTEMP'] for header in use_headers])
+xshift = np.array([header['ORDXSHFT'] for header in use_headers]) #Amount of X shift found by the order tweaking code
+yshift = np.array([header['ORDYSHFT'] for header in use_headers]) # ""    "" Y shift
+rotation = np.array([header['ORDROT'] for header in use_headers]) # ""    "" Order rotation
+ccdtemp = np.array([header['CCDATEMP'] for header in use_headers]) #Actual CCD temperature
+wmstemp = np.array([header['WMSTEMP'] for header in use_headers]) #Environment temperature (because we see seasonal changes in brightness)
 #%% Altitude Azimuth plot with yshift
+#Polar plot of alt az on-sky pointings with yshift
+
 fig, ax = plt.subplots(dpi=200, subplot_kw={'projection':'polar'}, figsize=(10,10))
 plot = ax.scatter(np.array(azimuth)*np.pi/180, altitude, c = yshift, s = rotangle, alpha=0.8)
 ax.set_title(r'Best shift with altitude-azimuth', fontsize=20)

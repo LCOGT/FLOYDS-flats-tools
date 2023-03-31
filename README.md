@@ -6,7 +6,9 @@ This code is designed to work with the `LCOGT/banzai-floyds` pipeline, specifica
 This repository is working smoothly as of **03/31/2023**
 <br>
 The code in this repository was all run in spyder, which is why the `#%%` symbols exist throughout. These are code cells that can be run separately in spyder.
-
+<br>
+The data used in this analysis can be found at [this google drive](https://drive.google.com/drive/folders/1-U_ehtxPbnQpDq-J9R27TTu0xFGMwDrB?usp=share_link)
+<br>
 ## Running the pipeline
 `floyds_data.py` is a script designed to grab lampflats for the year 2022, and find files with relatively different alt az pointings. Then these files can be downloaded.
 <br>
