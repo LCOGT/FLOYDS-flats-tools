@@ -48,7 +48,9 @@ ax2.set_title('Edge region of template lampflat')
 ax2.axis('off')
 cax = plt.colorbar(im2)
 fig.show()
-#%% Manually shift image in y animation
+#%% Manually shift image in y (animation)
+
+#These functions are the "metrics" for the amount of fringing and how well two orders are aligned on the edge
 def std_fringe(im):
     return np.std(im[140:190, 1100:1300])
 
@@ -110,7 +112,7 @@ fig.show()
 
 print(f'Best Edge removal:{shift_arr[np.argmin(np.abs(edge_amt))]}')
 print(f'Best Fringe removal:{shift_arr[np.argmin(np.abs(fringe_amt))]}')
-#%% Manually shift image in x
+#%% Manually shift image in x (animation)
 im_num = 550
 shift_arr = np.arange(-3, 1, 0.1)
 
@@ -131,8 +133,6 @@ anim.save('manual_xshift.gif', fps=2)
 #%% Manually shift in x and plot edge and fringe parameter minimization
 fringe_amt = []
 edge_amt = []
-#edge_region = [10:150, 250:500]
-#fringe_region = [140:190, 1100:1300]
 shift_arr = np.arange(-2, 2, 0.1)
 for i, x_shift_amt in enumerate(shift_arr):
     first_im = fits.open(use_files[im_num])['SCI'].data
